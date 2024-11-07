@@ -7,11 +7,7 @@ public class DebugExercise2 {
       * This function may have a bug, but if it does, you should find it
       * by stepping over, not into. */
     public static int max(int a, int b) {
-        int max  = a;
-        if (max <= b) {
-            max = b;
-        }
-        return max;
+        return a > b ? a : b;
     }
 
 
