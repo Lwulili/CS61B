@@ -31,11 +31,34 @@ public class NBody {
         Planet[] planets = readPlanets(fileName);
         double radius = readRadius(fileName);
         //time to draw ! finally !
-        StdDraw.setScale(-radius, radius);
-        StdDraw.picture(0, 0, "images/starfield.jpg");
-        for (Planet planet : planets) {
-            planet.draw();
+        double t = 0;
+        int num = planets.length;
+        while (T >= t) {
+            double[] xForce = new double[num];
+            double[] yForce = new double[num];
+            for (int i = 0; i < num; i++) {
+                xForce[i] = planets[i].calcNetForceExertedByX(planets);
+                yForce[i] = planets[i].calcNetForceExertedByY(planets);
+            }
+            for (int i = 0; i < num; i++) {
+                planets[i].update(dt, xForce[i], yForce[i]);
+            }
+            StdDraw.enableDoubleBuffering();
+            StdDraw.setScale(-radius, radius);
+            StdDraw.picture(0, 0, "images/starfield.jpg");
+            for (Planet planet : planets) {
+                planet.draw();
+            }
+            StdDraw.show();
+            StdDraw.pause(10);
+            t++;
         }
-        StdDraw.show();
+        StdOut.printf("%d\n", planets.length);
+        StdOut.printf("%.2e\n", radius);
+        for (int i = 0; i < planets.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                    planets[i].xxPos, planets[i].yyPos, planets[i].xxVel,
+                    planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+        }
     }
 }
