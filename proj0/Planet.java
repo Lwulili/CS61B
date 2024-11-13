@@ -33,15 +33,15 @@ public class Planet {
 
     public double calcForceExertedBy(Planet p) {
         double r = calcDistance(p);
-        return (G * mass * p.mass) / (r * r);
+        return G * mass * p.mass / (r * r);
     }
 
     public double calcForceExertedByX(Planet p) {
-        return calcForceExertedBy(p) * (xxPos - p.xxPos) / calcDistance(p);
+        return calcForceExertedBy(p) * (p.xxPos - xxPos) / calcDistance(p);
     }
 
     public double calcForceExertedByY(Planet p) {
-        return calcForceExertedBy(p) * (yyPos - p.yyPos) / calcDistance(p);
+        return calcForceExertedBy(p) * (p.yyPos - yyPos) / calcDistance(p);
     }
 
     public double calcNetForceExertedByX(Planet[] allPlanets) {
@@ -77,6 +77,6 @@ public class Planet {
     }
 
     public void draw() {
-        StdDraw.picture(xxPos, yyPos, imgFileName);
+        StdDraw.picture(xxPos, yyPos, "images/" + imgFileName);
     }
 }
