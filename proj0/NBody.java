@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class NBody {
+    private static final double G = 6.67e-11;
     public static double readRadius(String fileName) {
         In in = new In(fileName);
         int N = in.readInt();
@@ -10,7 +11,7 @@ public class NBody {
     public static Planet[] readPlanets(String fileName) {
         In in = new In(fileName);
         int N = in.readInt();
-        double radius = readRadius(fileName);
+        double radius = in.readDouble();
         Planet[] planets = new Planet[N];
         for (int i = 0; i < N; i++) {
             double xPos = in.readDouble();
