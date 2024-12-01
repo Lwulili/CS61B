@@ -14,34 +14,32 @@ public class LinkedListDeque<T> {
             this.prev = prev;
             this.next = next;
         }
+
     }
 
     public LinkedListDeque() {
-        dummyHead = dummyTail = null;
-        dummyHead.prev = dummyTail;
-        dummyTail.next = dummyHead;
+        dummyHead = new Node(null, null, null);
+        dummyTail = new Node(null, dummyHead, null);
+        dummyHead.next = dummyTail;
+        size = 0;
     }
 
     public void addFirst(T item) {
-        Node newNode = new Node(item, null, null);
+        Node newNode = new Node(item, dummyHead, dummyHead.next);
+        dummyHead.next.prev = newNode;
         dummyHead.next = newNode;
-        newNode.prev = dummyHead;
         size++;
     }
 
     public void addLast(T item) {
-        Node newNode = new Node(item, null, null);
-        newNode.next = dummyTail;
+        Node newNode = new Node(item, dummyTail.prev, dummyTail);
+        dummyTail.prev.next = newNode;
         dummyTail.prev = newNode;
         size++;
     }
 
     public boolean isEmpty() {
-        if (node.item == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return size == 0;
     }
 
     public int size() {
@@ -50,24 +48,33 @@ public class LinkedListDeque<T> {
 
     public void printDeque() {
         if (!isEmpty()) {
-            System.out.println(node.item + " ");
-            while (node.next != null) {
-                System.out.println(node.next.item + " ");
+            Node currentHead = dummyHead.next;
+            while (currentHead != null) {
+                System.out.println(currentHead.item + " ");
+                currentHead = currentHead.next;
             }
         }
     }
 
     public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         T item = dummyHead.next.item;
         dummyHead.next = dummyHead.next.next;
-        dummyHead.next.next.prev = dummyHead;
+        dummyHead.next.prev = dummyHead;
+        size--;
         return item;
     }
 
     public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         T item = dummyTail.prev.item;
         dummyTail.prev = dummyTail.prev.prev;
-        dummyTail.prev.prev.next = dummyTail;
+        dummyTail.prev.next = dummyTail;
+        size--;
         return item;
     }
     public T get(int index) {
@@ -91,8 +98,7 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return state.item;
         } else {
-            node = state.next;
-            return getRecursiveHelp(node, index - 1);
+            return getRecursiveHelp(state.next, index - 1);
         }
     }
 }
