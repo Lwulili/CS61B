@@ -3,25 +3,25 @@ import java.util.Arrays;
 public class ArrayDeque<T> {
     private T[] array;
     private int nextFirst;
-    private int nextlLast;
+    private int nextLast;
     private int size;
     private int length;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
         nextFirst = 4;
-        nextlLast = 4;
+        nextLast = 4;
         size = 0;
         length = 8;
     }
 
-    public T[] expand(T[] array) {
+    private T[] expand(T[] a) {
         T[] newArray = Arrays.copyOf(array, length * 2);
         length *= 2;
         return newArray;
     }
 
-    public T[] shrink(T[] array) {
+    private T[] shrink(T[] a) {
         T[] newArray = Arrays.copyOf(array, length / 2);
         length /= 2;
         return newArray;
@@ -33,18 +33,16 @@ public class ArrayDeque<T> {
         }
         array[nextFirst] = item;
         size++;
-        nextFirst--;
-        if (nextFirst == 0) nextFirst = length - 1;
+        nextFirst = (nextFirst == 0) ? length - 1 : nextFirst - 1;
     }
 
     public void addLast(T item) {
         if (size == length) {
             expand(array);
         }
-        array[nextlLast] = item;
-        nextlLast++;
+        array[nextLast] = item;
+        nextLast = (nextLast + 1) % length;
         size++;
-        if (nextlLast == length - 1) nextlLast = 0;
     }
 
     public boolean isEmpty() {
@@ -57,7 +55,7 @@ public class ArrayDeque<T> {
 
     public void printDeque() {
         for (T item : array) {
-            System.out.println(item);
+            System.out.println(item + " ");
         }
     }
 
@@ -68,11 +66,7 @@ public class ArrayDeque<T> {
         T item = array[nextFirst];
         array[nextFirst] = null;
         size--;
-        if (nextFirst == length - 1) {
-            nextFirst = 0;
-        } else {
-            nextFirst++;
-        }
+        nextFirst = (nextFirst + 1) % length;
         if (size * 4 < length) {
             shrink(array);
         }
@@ -83,15 +77,10 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T item = array[nextlLast];
-        array[nextlLast] = null;
+        T item = array[nextLast];
+        array[nextLast] = null;
         size--;
-        nextlLast--;
-        if (nextlLast == 0) {
-            nextlLast = array.length - 1;
-        } else {
-            nextlLast--;
-        }
+        nextLast = (nextLast == 0) ? length - 1 : nextLast - 1;
         if (size * 4 < length) {
             shrink(array);
         }

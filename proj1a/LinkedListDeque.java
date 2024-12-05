@@ -5,9 +5,9 @@ public class LinkedListDeque<T> {
     private Node dummyTail;
 
     public class Node {
-        public Node prev;
-        public T item;
-        public Node next;
+        private Node prev;
+        private T item;
+        private Node next;
 
         public Node(T item, Node prev, Node next) {
             this.item = item;
@@ -77,6 +77,7 @@ public class LinkedListDeque<T> {
         size--;
         return item;
     }
+
     public T get(int index) {
         int count = 0;
         node = dummyHead.next;
@@ -86,7 +87,7 @@ public class LinkedListDeque<T> {
         }
         return node.item;
     }
-    
+
     public T getRecursive(int index) {
         if (index >= size) {
             return null;
