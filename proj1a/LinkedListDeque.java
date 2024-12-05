@@ -88,10 +88,10 @@ public class LinkedListDeque<T> {
     }
     
     public T getRecursive(int index) {
-        if (index == 0) {
-            return dummyHead.next.item;
+        if (index >= size) {
+            return null;
         }
-        return getRecursiveHelp(dummyHead.next, index - 1);
+        return getRecursiveHelp(dummyHead.next, index);
     }
 
     private T getRecursiveHelp(Node state, int index) {
