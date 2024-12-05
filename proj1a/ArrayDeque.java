@@ -15,6 +15,7 @@ public class ArrayDeque<T> {
         length = 8;
     }
 
+    /*this is ugly, there is a smarter way
     private T[] expand(T[] a) {
         T[] newArray = Arrays.copyOf(array, length * 2);
         length *= 2;
@@ -25,21 +26,37 @@ public class ArrayDeque<T> {
         T[] newArray = Arrays.copyOf(array, length / 2);
         length /= 2;
         return newArray;
+    }*/
+
+    public void resize(int newSize) {
+        T[] newArray = (T[]) new Object[newSize];
+        System.arraycopy(array, 0, newArray, 0, size);
+        array = newArray;
+        nextFirst = 0;
+        nextLast = size;
     }
 
     public void addFirst(T item) {
         if (size == length) {
-            array = expand(array);
+            resize(length * 2);
+            length *= 2;
         }
+        /*first update the index, then update the data
+        * the slow pointer
+        * */
+        nextFirst = (nextFirst == 0) ? length - 1 : nextFirst - 1;
         array[nextFirst] = item;
         size++;
-        nextFirst = (nextFirst == 0) ? length - 1 : nextFirst - 1;
     }
 
     public void addLast(T item) {
         if (size == length) {
-            expand(array);
+            resize(length * 2);
+            length *= 2;
         }
+        /*first update the data, then update the index
+        * the fast pointer
+        * */
         array[nextLast] = item;
         nextLast = (nextLast + 1) % length;
         size++;
@@ -54,9 +71,16 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
+        /*print from the data which index is 0
         for (T item : array) {
             System.out.println(item + " ");
+        }*/
+
+        //print from the first data
+        for (int i = 0; i < size; i++) {
+            System.out.println(array[nextFirst + i] + " ");
         }
+        System.out.println();
     }
 
     public T removeFirst() {
@@ -68,7 +92,8 @@ public class ArrayDeque<T> {
         size--;
         nextFirst = (nextFirst + 1) % length;
         if (size * 4 < length) {
-            shrink(array);
+            resize(length / 2);
+            length /= 2;
         }
         return item;
     }
@@ -77,21 +102,22 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
+        nextLast = (nextLast == 0) ? length - 1 : nextLast - 1;
         T item = array[nextLast];
         array[nextLast] = null;
         size--;
-        nextLast = (nextLast == 0) ? length - 1 : nextLast - 1;
         if (size * 4 < length) {
-            shrink(array);
+            resize(length / 2);
+            length /= 2;
         }
         return item;
     }
 
     public T get(int index) {
-        if (index < size && index >= 0) {
-            return array[index];
-        } else {
+        if (index < 0 || index >= size) {
             return null;
         }
+        int actuallIndex = (nextFirst + index) % length;
+        return array[actuallIndex];
     }
 }
