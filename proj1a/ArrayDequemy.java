@@ -1,12 +1,12 @@
 
-public class ArrayDeque<T> {
+public class ArrayDequemy<T> {
     private T[] array;
     private int nextFirst;
     private int nextLast;
     private int size;
     private int length;
 
-    public ArrayDeque() {
+    public ArrayDequemy() {
         array = (T[]) new Object[8];
         nextFirst = 4;
         nextLast = 4;
@@ -31,18 +31,18 @@ public class ArrayDeque<T> {
         T[] newArray = (T[]) new Object[newSize];
         System.arraycopy(array, nextFirst, newArray, 0, size);
         array = newArray;
-        nextLast = (nextFirst + size) % length;
-        nextFirst = (nextFirst - 1 + length) % length;
+        nextFirst = 0;
+        nextLast = size;
+        length = newSize;
     }
 
     public void addFirst(T item) {
         if (size == length) {
             resize(length * 2);
-            length *= 2;
         }
         /*first update the index, then update the data
-         * the slow pointer
-         * */
+        * the slow pointer
+        * */
         nextFirst = (nextFirst == 0) ? length - 1 : nextFirst - 1;
         array[nextFirst] = item;
         size++;
@@ -51,11 +51,10 @@ public class ArrayDeque<T> {
     public void addLast(T item) {
         if (size == length) {
             resize(length * 2);
-            length *= 2;
         }
         /*first update the data, then update the index
-         * the fast pointer
-         * */
+        * the fast pointer
+        * */
         array[nextLast] = item;
         nextLast = (nextLast + 1) % length;
         size++;
@@ -77,12 +76,8 @@ public class ArrayDeque<T> {
 
         //print from the first data
         for (int i = 0; i < size; i++) {
-            System.out.println(array[nextFirst + i] + " ");
-        }
-        while(size > 0) {
             System.out.print(array[nextFirst] + " ");
-            nextFirst = (nextFirst + 1) % length;
-            size--;
+            nextFirst = (nextFirst + i) % length;
         }
         System.out.println();
     }
@@ -97,7 +92,6 @@ public class ArrayDeque<T> {
         nextFirst = (nextFirst + 1) % length;
         if (size * 4 < length) {
             resize(length / 2);
-            length /= 2;
         }
         return item;
     }
@@ -112,7 +106,6 @@ public class ArrayDeque<T> {
         size--;
         if (size * 4 < length) {
             resize(length / 2);
-            length /= 2;
         }
         return item;
     }
