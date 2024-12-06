@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class ArrayDeque<T> {
     private T[] array;
@@ -32,14 +31,14 @@ public class ArrayDeque<T> {
         T[] newArray = (T[]) new Object[newSize];
         System.arraycopy(array, nextFirst, newArray, 0, size);
         array = newArray;
-        nextLast = (nextFirst + size) % length;
-        nextFirst = (nextFirst - 1 + length) % length;
+        nextFirst = 0;
+        nextLast = size;
+        length = newSize;
     }
 
     public void addFirst(T item) {
         if (size == length) {
             resize(length * 2);
-            length *= 2;
         }
         /*first update the index, then update the data
         * the slow pointer
@@ -52,7 +51,6 @@ public class ArrayDeque<T> {
     public void addLast(T item) {
         if (size == length) {
             resize(length * 2);
-            length *= 2;
         }
         /*first update the data, then update the index
         * the fast pointer
@@ -71,16 +69,17 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        //print from the data which index is 0
+        /*print from the data which index is 0
         for (T item : array) {
             System.out.print(item + " ");
-        }
+        }*/
 
         //print from the first data
-//        for (int i = 0; i < size; i++) {
-//            System.out.println(array[nextFirst + i] + " ");
-//        }
-//        System.out.println();
+        for (int i = 0; i < size; i++) {
+            System.out.print(array[nextFirst] + " ");
+            nextFirst = (nextFirst + i) % length;
+        }
+        System.out.println();
     }
 
     public T removeFirst() {
@@ -93,7 +92,6 @@ public class ArrayDeque<T> {
         nextFirst = (nextFirst + 1) % length;
         if (size * 4 < length) {
             resize(length / 2);
-            length /= 2;
         }
         return item;
     }
@@ -108,7 +106,6 @@ public class ArrayDeque<T> {
         size--;
         if (size * 4 < length) {
             resize(length / 2);
-            length /= 2;
         }
         return item;
     }
