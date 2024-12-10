@@ -1,6 +1,6 @@
 public class ArrayDequeTest {
     public static void main(String[] args) {
-        ArrayDequemy<String> deque = new ArrayDequemy<>();
+        ArrayDeque<String> deque = new ArrayDeque<>();
         deque.addFirst("a");
         deque.addFirst("b");
         deque.addFirst("c");
