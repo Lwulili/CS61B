@@ -20,12 +20,19 @@ public class TestPalindrome {
     @Test
     public void testIsPalindrome() {
         assertFalse(palindrome.isPalindrome("persiflage"));
-        System.out.println("first passes");
+        System.out.println("first passed");
         assertTrue(palindrome.isPalindrome(""));
-        System.out.println("second passes");
+        System.out.println("second passed");
         assertTrue(palindrome.isPalindrome("ccc"));
-        System.out.println("third passes");
+        System.out.println("third passed");
         assertFalse(palindrome.isPalindrome("caa"));
-        System.out.println("forth passes");
+        System.out.println("forth passed");
+    }
+
+    @Test
+    public void testOffByOneIsPalindrome() {
+        CharacterComparator cc = new OffByOne();
+        assertTrue(palindrome.isPalindrome("flake", cc));
+        assertFalse(palindrome.isPalindrome("aba", cc));
     }
 }

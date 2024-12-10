@@ -13,14 +13,23 @@ public class Palindrome {
         if (word.length() == 0 || word.length() == 1) {
             return true;
         }
-        Deque<Character> originalDq = wordToDeque(word);
-        Deque<Character> reverseDq = new LinkedListDeque<>();
-        for (int i = 0; i < word.length(); i++) {
-            reverseDq.addFirst(word.charAt(i));
+        int len = word.length();
+        for (int i = 0; i < len / 2; i++) {
+            if (word.charAt(i) != word.charAt(len - i - 1)) {
+                return false;
+            }
         }
-        int len = originalDq.size();
-        for (int i = 0; i < len ; i++) {
-            if (reverseDq.get(i) != originalDq.get(i)) {
+        return true;
+    }
+
+    //this is method overload
+    public boolean isPalindrome(String word, CharacterComparator cc) {
+        if (word.length() == 0 || word.length() == 1) {
+            return true;
+        }
+        int len = word.length();
+        for (int i = 0; i < len / 2; i++) {
+            if (!cc.equalChars(word.charAt(i), word.charAt(len - i - 1))) {
                 return false;
             }
         }
